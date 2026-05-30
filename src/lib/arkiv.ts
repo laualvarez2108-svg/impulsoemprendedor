@@ -7,6 +7,7 @@ import { privateKeyToAccount } from "@arkiv-network/sdk/accounts";
 import { braga } from "@arkiv-network/sdk/chains";
 import { ExpirationTime, jsonToPayload } from "@arkiv-network/sdk/utils";
 import { eq } from "@arkiv-network/sdk/query";
+import { getWebRequest } from "@tanstack/react-start/server";
 
 export const PROJECT_ATTRIBUTE = {
   key: "project",
@@ -20,13 +21,21 @@ let publicClientInstance: ReturnType<typeof createPublicClient> | null = null;
 
 function getWalletClient() {
   if (!walletClientInstance) {
-    const privateKey = process.env.ARKIV_PRIVATE_KEY as `0x${string}`;
+    let privateKey: string | undefined;
+    
+    try {
+      const request = getWebRequest();
+      const env = (request as any).cloudflare?.env || {};
+      privateKey = env.ARKIV_PRIVATE_KEY || process.env.ARKIV_PRIVATE_KEY;
+    } catch {
+      privateKey = process.env.ARKIV_PRIVATE_KEY;
+    }
     
     if (!privateKey) {
       throw new Error("ARKIV_PRIVATE_KEY is not set in environment variables");
     }
 
-    const account = privateKeyToAccount(privateKey);
+    const account = privateKeyToAccount(privateKey as `0x${string}`);
 
     walletClientInstance = createWalletClient({
       chain: braga,

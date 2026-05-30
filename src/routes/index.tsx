@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowUpRight, Sparkles, Zap, Star } from "lucide-react";
+import { ArrowUpRight, Sparkles, Zap, Star, Database, Shield, Brain } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import logo from "@/assets/logo.jpg";
 
@@ -8,7 +8,7 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Impulso Emprendedor IA — Bienvenida" },
-      { name: "description", content: "La IA al servicio de emprendedores modernos. Crea contenido, organiza ideas y potencia tu marca." },
+      { name: "description", content: "La IA al servicio de emprendedores modernos. Crea contenido, organiza ideas y potencia tu marca con tecnología blockchain Arkiv." },
     ],
   }),
 });
@@ -25,7 +25,7 @@ function Welcome() {
           {/* Top badge */}
           <div className="mx-auto inline-flex animate-fade-in items-center gap-2 rounded-full border border-gold/30 bg-card/40 px-3 py-1.5 backdrop-blur-xl">
             <span className="flex h-1.5 w-1.5 animate-pulse rounded-full bg-gold" />
-            <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-gold-soft">v1.0 · disponible ahora</span>
+            <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-gold-soft">v2.0 · Powered by Arkiv Network</span>
           </div>
 
           {/* Logo */}
@@ -47,12 +47,27 @@ function Welcome() {
               La inteligencia artificial al servicio de emprendedores modernos.
             </p>
             <p className="animate-fade-in-up delay-200 mx-auto max-w-xs text-[15px] leading-relaxed text-foreground/80">
-              Creá contenido, organizá ideas y potenciá tu marca con herramientas inteligentes.
+              Creá contenido, organizá ideas y potenciá tu marca con herramientas inteligentes respaldadas por blockchain.
             </p>
           </div>
 
+          {/* Arkiv Integration Badge */}
+          <div className="mt-6 animate-fade-in-up delay-250">
+            <div className="mx-auto max-w-sm rounded-2xl border border-gold/30 bg-card/60 p-4 backdrop-blur-xl">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-gold shadow-gold">
+                  <Database className="h-5 w-5 text-primary-foreground" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-[13px] font-semibold text-foreground">Integrado con Arkiv Network</p>
+                  <p className="text-[11px] text-muted-foreground">Tus datos seguros en blockchain</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* CTA */}
-          <div className="mt-10 space-y-3 animate-fade-in-up delay-300">
+          <div className="mt-8 space-y-3 animate-fade-in-up delay-300">
             <Link
               to="/dashboard"
               className="group relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-2xl bg-gradient-gold px-6 py-[18px] text-[15px] font-semibold text-primary-foreground shadow-gold shadow-inner-gold transition-spring hover:scale-[1.02] active:scale-[0.98]"
@@ -75,9 +90,9 @@ function Welcome() {
           <div className="mt-auto pt-10 animate-fade-in-up delay-400">
             <div className="grid grid-cols-3 gap-2.5">
               {[
-                { icon: Sparkles, label: "9+ IAs" },
+                { icon: Brain, label: "IA Real" },
+                { icon: Shield, label: "Blockchain" },
                 { icon: Zap, label: "Instantáneo" },
-                { icon: Star, label: "Premium" },
               ].map((f) => (
                 <div key={f.label} className="flex flex-col items-center gap-1.5 rounded-2xl border border-border bg-card/40 px-3 py-3 backdrop-blur-xl">
                   <f.icon className="h-4 w-4 text-gold" strokeWidth={1.8} />

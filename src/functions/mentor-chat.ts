@@ -1,11 +1,13 @@
 import { createServerFn } from "@tanstack/react-start";
+import { getWebRequest } from "@tanstack/react-start/server";
 import { logMentorQuery, getUserProfile, getCreativeHistory } from "@/lib/arkiv";
 
 export const mentorChat = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => d as { messages: Array<{ role: string; content: string }> })
-  .handler(async ({ data, context }) => {
-    const env = (context as any).cloudflare?.env || process.env;
-    const apiKey = env.OPENAI_API_KEY;
+  .handler(async ({ data }) => {
+    const request = getWebRequest();
+    const env = (request as any).cloudflare?.env || {};
+    const apiKey = env.OPENAI_API_KEY || process.env.OPENAI_API_KEY;
     
     if (!apiKey) {
       throw new Error("OPENAI_API_KEY no está configurada");
