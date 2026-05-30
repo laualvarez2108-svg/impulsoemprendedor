@@ -8,13 +8,7 @@ import { braga } from "@arkiv-network/sdk/chains";
 import { ExpirationTime, jsonToPayload } from "@arkiv-network/sdk/utils";
 import { eq } from "@arkiv-network/sdk/query";
 import { getWebRequest } from "@tanstack/react-start/server";
-
-export const PROJECT_ATTRIBUTE = {
-  key: "project",
-  value: "impulso-emprendedor-ia-7x9k",
-} as const;
-
-export const CREATOR_WALLET_ADDRESS = "0xC66D552D7a6981ce3634c3c0eaB58766FC3D428F";
+import { PROJECT_ATTRIBUTE, CREATOR_WALLET_ADDRESS, type UserProfile } from "./arkiv";
 
 let walletClientInstance: ReturnType<typeof createWalletClient> | null = null;
 let publicClientInstance: ReturnType<typeof createPublicClient> | null = null;
@@ -104,15 +98,6 @@ export async function getMentorQueries(limit = 50) {
     .fetch();
 
   return result.entities;
-}
-
-export interface UserProfile {
-  brandTone?: string;
-  productOrService?: string;
-  industry?: string;
-  creativeStyle?: string;
-  targetAudience?: string;
-  brandValues?: string[];
 }
 
 export async function saveUserProfile(profile: UserProfile) {
