@@ -3,7 +3,7 @@ import { AppShell } from "@/components/AppShell";
 import { ArrowLeft, Save, User, Palette, Target, Briefcase } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { saveUserProfile } from "@/lib/arkiv";
+import { saveUserProfile } from "@/lib/arkiv.server";
 import type { UserProfile } from "@/lib/arkiv";
 
 export const Route = createFileRoute("/profile-setup")({ component: ProfileSetup });

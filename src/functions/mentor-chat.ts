@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { getWebRequest } from "@tanstack/react-start/server";
-import { logMentorQuery, getUserProfile, getCreativeHistory } from "@/lib/arkiv";
+import { logMentorQuery, getUserProfile, getCreativeHistory } from "@/lib/arkiv.server";
 
 export const mentorChat = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => d as { messages: Array<{ role: string; content: string }> })
