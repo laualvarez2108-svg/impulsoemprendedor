@@ -13,35 +13,45 @@ export const PROJECT_ATTRIBUTE = {
   value: "impulso-emprendedor-ia-7x9k",
 } as const;
 
-if (!PROJECT_ATTRIBUTE.value) {
-  throw new Error(
-    "Set PROJECT_ATTRIBUTE.value to a unique string identifying your project."
-  );
-}
-
-const privateKey = process.env.ARKIV_PRIVATE_KEY as `0x${string}`;
-
-if (!privateKey) {
-  throw new Error("ARKIV_PRIVATE_KEY is not set in environment variables");
-}
-
-const account = privateKeyToAccount(privateKey);
-
 export const CREATOR_WALLET_ADDRESS = "0xC66D552D7a6981ce3634c3c0eaB58766FC3D428F";
 
-export const walletClient = createWalletClient({
-  chain: braga,
-  transport: http(),
-  account,
-});
+let walletClientInstance: ReturnType<typeof createWalletClient> | null = null;
+let publicClientInstance: ReturnType<typeof createPublicClient> | null = null;
 
-export const publicClient = createPublicClient({
-  chain: braga,
-  transport: http(),
-});
+function getWalletClient() {
+  if (!walletClientInstance) {
+    const privateKey = process.env.ARKIV_PRIVATE_KEY as `0x${string}`;
+    
+    if (!privateKey) {
+      throw new Error("ARKIV_PRIVATE_KEY is not set in environment variables");
+    }
+
+    const account = privateKeyToAccount(privateKey);
+
+    walletClientInstance = createWalletClient({
+      chain: braga,
+      transport: http(),
+      account,
+    });
+  }
+  
+  return walletClientInstance;
+}
+
+function getPublicClient() {
+  if (!publicClientInstance) {
+    publicClientInstance = createPublicClient({
+      chain: braga,
+      transport: http(),
+    });
+  }
+  
+  return publicClientInstance;
+}
 
 export async function logMentorQuery(userMessage: string, aiResponse: string) {
   try {
+    const walletClient = getWalletClient();
     const { entityKey, txHash } = await walletClient.createEntity({
       payload: jsonToPayload({
         userQuery: userMessage,
@@ -71,6 +81,7 @@ export async function logMentorQuery(userMessage: string, aiResponse: string) {
 }
 
 export async function getMentorQueries(limit = 50) {
+  const publicClient = getPublicClient();
   const query = publicClient.buildQuery();
   const result = await query
     .where([
@@ -97,6 +108,7 @@ export interface UserProfile {
 
 export async function saveUserProfile(profile: UserProfile) {
   try {
+    const walletClient = getWalletClient();
     const { entityKey, txHash } = await walletClient.createEntity({
       payload: jsonToPayload({
         ...profile,
@@ -122,6 +134,7 @@ export async function saveUserProfile(profile: UserProfile) {
 
 export async function getUserProfile(): Promise<UserProfile | null> {
   try {
+    const publicClient = getPublicClient();
     const query = publicClient.buildQuery();
     const result = await query
       .where([
@@ -157,6 +170,7 @@ export async function getUserProfile(): Promise<UserProfile | null> {
 }
 
 export async function getCreativeHistory(limit = 20) {
+  const publicClient = getPublicClient();
   const query = publicClient.buildQuery();
   const result = await query
     .where([
