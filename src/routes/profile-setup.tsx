@@ -3,7 +3,7 @@ import { AppShell } from "@/components/AppShell";
 import { ArrowLeft, Save, User, Palette, Target, Briefcase } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { saveUserProfile } from "@/lib/arkiv.server";
+import { saveUserProfile } from "@/functions/save-user-profile";
 import type { UserProfile } from "@/lib/arkiv";
 
 export const Route = createFileRoute("/profile-setup")({ component: ProfileSetup });
@@ -31,7 +31,7 @@ function ProfileSetup() {
           .map((v) => v.trim())
           .filter((v) => v.length > 0),
       };
-      await saveUserProfile(profileToSave);
+      await saveUserProfile({ data: profileToSave });
       setSaved(true);
       setTimeout(() => setSaved(false), 3000);
     } catch (error) {

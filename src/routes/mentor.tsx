@@ -4,7 +4,7 @@ import { Brain, Send, ArrowLeft, Copy, Settings } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { mentorChat } from "@/functions/mentor-chat";
-import { getUserProfile } from "@/lib/arkiv.server";
+import { getUserProfile } from "@/functions/get-user-profile";
 import type { UserProfile } from "@/lib/arkiv";
 
 export const Route = createFileRoute("/mentor")({ component: Mentor });
