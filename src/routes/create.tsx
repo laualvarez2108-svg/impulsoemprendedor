@@ -39,7 +39,18 @@ function Create() {
       }));
 
       const response = await copilotChat({ data: { messages: apiMessages } });
-      setMessages((prev) => [...prev, { role: "ai", text: response }]);
+      
+      if (typeof response === 'object' && response !== null && 'error' in response) {
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "ai",
+            text: `⚠️ ${response.message}`,
+          },
+        ]);
+      } else {
+        setMessages((prev) => [...prev, { role: "ai", text: response as string }]);
+      }
     } catch (error) {
       setMessages((prev) => [
         ...prev,
